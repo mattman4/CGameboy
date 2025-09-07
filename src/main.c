@@ -1,6 +1,6 @@
 #define SDL_MAIN_USE_CALLBACKS 1
 
-#define APP_NAME "GoBulator"
+#define APP_NAME "CGameboy"
 #define VERSION "0.0.1"
 #define WIDTH 160
 #define HEIGHT 144
