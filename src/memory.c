@@ -1,3 +1,4 @@
+#include <string.h>
 #include "memory.h"
 
 // https://gbdev.io/pandocs/Memory_Map.html
@@ -32,22 +33,22 @@ unsigned char readMem(unsigned short addr) {
 }
 
 int writeMem(unsigned short addr, unsigned char val) {
-	if (addr < 0x8000) { rom[addr] = val; return; }
-	if (addr < 0xA000) { vram[addr - 0x8000] = val; return; }
-	if (addr < 0xC000) { eram[addr - 0xA000] = val; return; }
-	if (addr < 0xE000) { wram[addr - 0xC000] = val; return; }
-	if (addr < 0xFE00) return;
-	if (addr < 0xFEA0) { oam[addr - 0xFE00] = val; return; }
-	if (addr < 0xFF00) return;
-	if (addr < 0xFF80) { io[addr - 0xFF00] = val; return; }
-	if (addr < 0xFFFF) { hram[addr - 0xFF80] = val; return; }
-	if (addr == 0xFFFF) return;
+	if (addr < 0x8000) { rom[addr] = val; return 1; }
+	if (addr < 0xA000) { vram[addr - 0x8000] = val; return 1; }
+	if (addr < 0xC000) { eram[addr - 0xA000] = val; return 1; }
+	if (addr < 0xE000) { wram[addr - 0xC000] = val; return 1; }
+	if (addr < 0xFE00) return 1;
+	if (addr < 0xFEA0) { oam[addr - 0xFE00] = val; return 1; }
+	if (addr < 0xFF00) return 1;
+	if (addr < 0xFF80) { io[addr - 0xFF00] = val; return 1; }
+	if (addr < 0xFFFF) { hram[addr - 0xFF80] = val; return 1; }
+	if (addr == 0xFFFF) return 1;
 
 
 	return 0;
 }
 
-void reset() {
+void resetMem() {
 	memset(rom, 0, sizeof(rom));
 	memset(vram, 0, sizeof(vram));
 	memset(eram, 0, sizeof(eram));

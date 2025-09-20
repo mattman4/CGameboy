@@ -3,6 +3,6 @@
 
 unsigned char readMem(unsigned short);
 int writeMem(unsigned short, unsigned char);
-void reset(void);
+void resetMem(void);
 
 #endif

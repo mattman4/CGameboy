@@ -16,13 +16,13 @@ struct registers {
 	unsigned char h;
 	unsigned char l;
 
-	unsigned char sp;
-	unsigned char pc;
+	unsigned short sp;
+	unsigned short pc;
 };
 
 struct registers registers;
 
-void reset() {
+void resetCPU() {
 	registers.a = 0x01;
 	registers.f = 0xB0;
 	registers.b = 0x00;
