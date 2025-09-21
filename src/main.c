@@ -41,8 +41,7 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 	if(event->type == SDL_EVENT_KEY_DOWN)
 	{
 		if(event->key.key == SDLK_L && event->key.mod & SDL_KMOD_CTRL) {
-			SDL_Log("Loading file");
-			loadrom();
+			loadrom(window);
 		}
 	}
 
@@ -54,5 +53,5 @@ SDL_AppResult SDL_AppIterate(void* appstate) {
 }
 
 void SDL_AppQuit(void* appstate, SDL_AppResult result) {
-
+	SDL_Log("Goodbye!");
 }
