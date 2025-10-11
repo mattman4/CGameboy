@@ -35,6 +35,8 @@ void SDLCALL callback(void *userdata, const char* const *filelist, int filter) {
     }
 
     memcpy(rom, data, 0x8000);
+
+    // Read cartridge header (0x1000 - 0x014F)
 }
 
 void loadrom(SDL_Window *window) {
