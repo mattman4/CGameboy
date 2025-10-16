@@ -28,7 +28,6 @@ unsigned char readMem(unsigned short addr) {
 	if (addr < 0xFFFF) return hram[addr - 0xFF80];
 	if (addr == 0xFFFF) return 0; // IE
 
-
 	return 0;
 }
 
@@ -43,7 +42,6 @@ int writeMem(unsigned short addr, unsigned char val) {
 	if (addr < 0xFF80) { io[addr - 0xFF00] = val; return 1; }
 	if (addr < 0xFFFF) { hram[addr - 0xFF80] = val; return 1; }
 	if (addr == 0xFFFF) return 1;
-
 
 	return 0;
 }

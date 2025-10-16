@@ -3,23 +3,6 @@
 // https://gbdev.io/pandocs/Power_Up_Sequence.html#cpu-registers
 // https://gbdev.io/pandocs/CPU_Registers_and_Flags.html
 
-struct registers {
-	unsigned char a; // accumulator
-	unsigned char f; // flags
-
-	unsigned char b;
-	unsigned char c;
-
-	unsigned char d;
-	unsigned char e;
-
-	unsigned char h;
-	unsigned char l;
-
-	unsigned short sp;
-	unsigned short pc;
-};
-
 struct registers registers;
 
 void resetCPU() {

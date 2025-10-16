@@ -5,8 +5,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_main.h>
 #include "cart.h" // for loadrom
-
-void updatePixels(void);
+#include "gpu.h"
 
 // https://examples.libsdl.org/SDL3/renderer/01-clear/
 
@@ -37,7 +36,22 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
 		return SDL_APP_FAILURE;
 	}
 
-	updatePixels();
+	for(int j = 0; j < HEIGHT; j++) {
+		enum Colour colour = BLACK;
+
+		if(j < (HEIGHT/4)) {
+			colour = WHITE;
+		} else if(j < (HEIGHT/4)*2) {
+			colour = LIGHT_GRAY;
+		} else if(j < (HEIGHT/4)*3) {
+			colour = DARK_GRAY;
+		}
+		
+		for(int i = 0; i < WIDTH; i++) {
+			setPixel(i, j, colour);
+		}
+	}
+	updateScreen(texture, renderer);
 
 	SDL_Log("%s %s", APP_NAME, VERSION);
 	return SDL_APP_CONTINUE;
@@ -70,25 +84,4 @@ void SDL_AppQuit(void* appstate, SDL_AppResult result) {
 	SDL_Quit();
 
 	SDL_Log("Goodbye!");
-}
-
-void updatePixels() {
-	Uint32 *pixels;
-	int pitch;
-
-	if(SDL_LockTexture(texture, NULL, (void**) &pixels, &pitch)) {
-		for(int y = 0; y < HEIGHT; y++) {
-			for(int x = 0; x < WIDTH; x++) {
-				int idx = y * (pitch/4) + x;
-				pixels[idx] = idx & 1 ? 0xFF0000FF : 0x00FF00FF;
-			}
-		}
-
-		SDL_UnlockTexture(texture);
-	}
-
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-	SDL_RenderClear(renderer);
-	SDL_RenderTexture(renderer, texture, NULL, NULL);
-	SDL_RenderPresent(renderer);
 }

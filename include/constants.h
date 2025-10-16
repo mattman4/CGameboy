@@ -2,7 +2,7 @@
 #define CONSTANTS_H_
 
 #define APP_NAME "CGameboy"
-#define VERSION "0.0.1"
+#define VERSION "Indev"
 #define WIDTH 160
 #define HEIGHT 144
 
