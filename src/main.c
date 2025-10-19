@@ -7,11 +7,13 @@
 #include "cart.h" // for loadrom
 #include "gpu.h"
 
+void colourShowcase();
+
 // https://examples.libsdl.org/SDL3/renderer/01-clear/
 
-SDL_Window *window = NULL;
-SDL_Renderer *renderer = NULL;
-SDL_Texture *texture = NULL;
+static SDL_Window *window = NULL;
+static SDL_Renderer *renderer = NULL;
+static SDL_Texture *texture = NULL;
 
 SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
 	SDL_SetAppMetadata(APP_NAME, VERSION, "com.mattman.gb_emu");
@@ -36,23 +38,6 @@ SDL_AppResult SDL_AppInit(void **appstate, int argc, char **argv) {
 		return SDL_APP_FAILURE;
 	}
 
-	for(int j = 0; j < HEIGHT; j++) {
-		enum Colour colour = BLACK;
-
-		if(j < (HEIGHT/4)) {
-			colour = WHITE;
-		} else if(j < (HEIGHT/4)*2) {
-			colour = LIGHT_GRAY;
-		} else if(j < (HEIGHT/4)*3) {
-			colour = DARK_GRAY;
-		}
-		
-		for(int i = 0; i < WIDTH; i++) {
-			setPixel(i, j, colour);
-		}
-	}
-	updateScreen(texture, renderer);
-
 	SDL_Log("%s %s", APP_NAME, VERSION);
 	return SDL_APP_CONTINUE;
 }
@@ -66,7 +51,11 @@ SDL_AppResult SDL_AppEvent(void *appstate, SDL_Event *event) {
 	if(event->type == SDL_EVENT_KEY_DOWN)
 	{
 		if(event->key.key == SDLK_L && event->key.mod & SDL_KMOD_CTRL) {
-			loadrom(window);
+			loadrom(window, texture, renderer);
+		}
+
+		if(event->key.key == SDLK_K && event->key.mod & SDL_KMOD_CTRL) {
+			colourShowcase();
 		}
 	}
 
@@ -84,4 +73,23 @@ void SDL_AppQuit(void* appstate, SDL_AppResult result) {
 	SDL_Quit();
 
 	SDL_Log("Goodbye!");
+}
+
+void colourShowcase() {
+	for(int j = 0; j < HEIGHT; j++) {
+		enum Colour colour = BLACK;
+
+		if(j < (HEIGHT/4)) {
+			colour = WHITE;
+		} else if(j < (HEIGHT/4)*2) {
+			colour = LIGHT_GRAY;
+		} else if(j < (HEIGHT/4)*3) {
+			colour = DARK_GRAY;
+		}
+		
+		for(int i = 0; i < WIDTH; i++) {
+			setPixel(i, j, colour);
+		}
+	}
+	updateScreen(texture, renderer);
 }
